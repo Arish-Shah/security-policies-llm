@@ -11,6 +11,10 @@
     "format": "NODE_OPTIONS='--experimental-strip-types' prettier . --write"
   },
   "dependencies": {
+    "@langchain/community": "^0.3.37",
+    "@langchain/ollama": "^0.2.0",
+    "@langchain/openai": "^0.5.0",
+    "@langchain/qdrant": "^0.1.1",
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
@@ -21,6 +25,7 @@
     "lucide-react": "^0.484.0",
     "next": "15.2.4",
     "next-themes": "^0.4.6",
+    "pdf-parse": "^1.1.1",
     "postgres": "^3.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

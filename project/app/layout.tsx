@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -26,7 +26,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <SidebarProvider>
             <AppSidebar />
-            <main className="w-full">{children}</main>
+            <SidebarInset>
+              <main className="h-[calc(100vh-var(--spacing)*14)]">
+                {children}
+              </main>
+            </SidebarInset>
             <Toaster />
           </SidebarProvider>
         </ThemeProvider>

@@ -2,43 +2,66 @@ import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupAction,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSkeleton,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { Plus } from "lucide-react";
+import { getProjects } from "@/lib/db/queries";
+import Link from "next/link";
+import { Suspense } from "react";
+import { CreateProjectButton } from "./create-project-button";
 
-const projects: { name: string; url: string }[] = [
-  { name: "Medical Records", url: "" },
-];
+function NavProjectsSkeleton() {
+  return (
+    <SidebarMenu>
+      {Array.from({ length: 5 }).map((_, index) => (
+        <SidebarMenuItem key={index}>
+          <SidebarMenuSkeleton />
+        </SidebarMenuItem>
+      ))}
+    </SidebarMenu>
+  );
+}
 
-export function AppSidebar() {
+async function NavProjects() {
+  const projects = await getProjects();
+
+  return (
+    <SidebarMenu>
+      {projects.map((project) => (
+        <SidebarMenuItem key={project.uuid}>
+          <SidebarMenuButton asChild>
+            <Link href={`/project/${project.uuid}`}>
+              <span>{project.name}</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      ))}
+    </SidebarMenu>
+  );
+}
+
+export async function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader>Security Policies LLM</SidebarHeader>
+      <SidebarHeader>
+        <Link href="/" className="font-medium">
+          Security Policies LLM
+        </Link>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Projects</SidebarGroupLabel>
-          <SidebarGroupAction>
-            <Plus /> <span className="sr-only">Add Project</span>
-          </SidebarGroupAction>
+          <CreateProjectButton />
           <SidebarGroupContent>
-            <SidebarMenu>
-              {projects.map((project) => (
-                <SidebarMenuItem key={project.name}>
-                  <SidebarMenuButton asChild>
-                    <a href={project.url}>
-                      <span>{project.name}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+            <Suspense fallback={<NavProjectsSkeleton />}>
+              <NavProjects />
+            </Suspense>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
