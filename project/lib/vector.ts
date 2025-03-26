@@ -14,7 +14,11 @@ export async function addVectors(collectionName: string, contents: string[]) {
 }
 
 export async function getResults(collectionName: string, search: string) {
-  const vectorStore = await QdrantVectorStore.fromExistingCollection(embeddings, { url: env.QDRANT_URL, collectionName});
+  const vectorStore = await QdrantVectorStore.fromExistingCollection(
+    embeddings,
+    { url: env.QDRANT_URL, collectionName }
+  );
+  vectorStore.client.getCollection("");
   const results = await vectorStore.similaritySearch(search, 10);
-  return results.map(result => result.pageContent);
+  return results.map((result) => ({ rule: result.pageContent }));
 }

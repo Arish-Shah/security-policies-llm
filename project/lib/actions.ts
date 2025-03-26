@@ -16,7 +16,7 @@ export async function createProject(_: any, formData: FormData) {
   const project = await db
     .insert(projectsTable)
     .values({
-      name
+      name,
     })
     .returning({
       projectId: projectsTable.id,

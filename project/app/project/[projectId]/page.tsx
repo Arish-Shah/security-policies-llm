@@ -1,3 +1,6 @@
+import { RulesFilterForm } from "@/components/rules-filter-form";
+import { RulesTable } from "@/components/rules-table";
+import { Selected } from "@/components/selected";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -5,16 +8,22 @@ import {
 } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { getProjectById } from "@/lib/db/queries";
+import { getProjectByUuid } from "@/lib/db/queries";
+import { SeparatorVertical } from "lucide-react";
 import { notFound } from "next/navigation";
 
 type ProjectPageProps = {
   params: Promise<{ projectId: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { projectId } = await params;
-  const project = await getProjectById(projectId);
+export default async function ProjectPage({
+  params,
+  searchParams,
+}: ProjectPageProps) {
+  const { projectId: projectUuid } = await params;
+  const { filter } = await searchParams;
+  const project = await getProjectByUuid(projectUuid);
 
   if (!project) notFound();
 
@@ -26,11 +35,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <span className="font-medium">{project.name}</span>
       </header>
       <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel>
-          <div className="p-4">One</div>
+        <ResizablePanel className="overflow-y-auto! p-4" defaultSize={50}>
+          <RulesFilterForm />
+          <RulesTable projectUuid={projectUuid} filter={filter} />
         </ResizablePanel>
-        <ResizableHandle />
-        <ResizablePanel>Two</ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel className="p-4" defaultSize={50}>
+          <Selected />
+        </ResizablePanel>
       </ResizablePanelGroup>
     </>
   );

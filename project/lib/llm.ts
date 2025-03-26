@@ -1,16 +1,16 @@
-// import { ChatOllama } from "@langchain/ollama";
+import { ChatOllama } from "@langchain/ollama";
 import { ChatOpenAI } from "@langchain/openai";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { z } from "zod";
 
-// const llm = new ChatOllama({
-//   model: "qwen2.5",
-// });
-
-const llm = new ChatOpenAI({
-  model: "gpt-4o-mini",
+const llm = new ChatOllama({
+  model: "llama3.2",
 });
+
+// const llm = new ChatOpenAI({
+//   model: "gpt-4o-mini",
+// });
 
 export async function getSplits(file: File) {
   const loader = new PDFLoader(file);
