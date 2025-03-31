@@ -44,7 +44,7 @@ export async function getRules(contents: string[]) {
 
   const llmWithSO = llm.withStructuredOutput(schema, { name: "get_rules" });
 
-  for (const content of contents.slice(0, 2)) {
+  for (const content of contents.slice(0, 3)) {
     const result = await llmWithSO.invoke(`
       Extract complete in original text, don't summarise or shorten:
 
