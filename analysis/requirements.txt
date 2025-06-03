@@ -1,0 +1,6 @@
+notebook
+openai
+pgvector
+psycopg[binary]
+pypdf
+python-dotenv
