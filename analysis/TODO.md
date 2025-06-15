@@ -8,6 +8,8 @@
 
 - [ ] Extract the provider and the customer (subject) in an article or clause
 
+- [ ] Create a dependency graph for dependent articles
+
 - [ ] Check GPDR-compliant software and generate workflows from them
 
 - [ ] Translation to Rego for Open Policy Agent
